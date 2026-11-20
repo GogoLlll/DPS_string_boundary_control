@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>wavesys — струна с граничным управлением</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="app viz-root">
+  <header class="top">
+    <div>
+      <h1>Струна с граничным управлением</h1>
+      <p class="equation">y<sub>tt</sub> = a² y<sub>xx</sub>, &nbsp; 0 &lt; x &lt; l; &nbsp;&nbsp; y(0,x) = y<sub>0</sub>(x), &nbsp; y<sub>t</sub>(0,x) = y<sub>1</sub>(x); &nbsp;&nbsp; y(t,0) = u(t), &nbsp; y(t,l) = 0</p>
+    </div>
+  </header>
+
+  <aside class="panel" aria-label="Параметры задачи">
+    <form id="problem-form" autocomplete="off">
+      <label class="field">
+        <span>Пример</span>
+        <select id="preset"></select>
+      </label>
+      <p class="hint" id="preset-note"></p>
+
+      <fieldset>
+        <legend>Струна и время</legend>
+        <div class="row3">
+          <label class="field"><span>Длина l</span><input id="f-l" inputmode="decimal" required></label>
+          <label class="field"><span>Скорость a</span><input id="f-a" inputmode="decimal" required></label>
+          <label class="field"><span>Время T</span><input id="f-T" inputmode="decimal" required></label>
+        </div>
+        <p class="hint" id="t0-hint"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Начальные данные</legend>
+        <label class="field"><span>Отклонение y<sub>0</sub>(x)</span><input id="f-y0" class="formula" spellcheck="false" required></label>
+        <label class="field"><span>Скорость y<sub>1</sub>(x)</span><input id="f-y1" class="formula" spellcheck="false" required></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Управление на левом конце</legend>
+        <label class="field"><span>Источник</span><select id="f-source"></select></label>
+        <p class="hint" id="source-note"></p>
+        <label class="field" id="u-field"><span>u(t)</span><input id="f-u" class="formula" spellcheck="false"></label>
+        <div id="source-options"></div>
+      </fieldset>
+
+      <details class="advanced">
+        <summary>Сетка и проверка</summary>
+        <div class="row3">
+          <label class="field"><span>Точек по x</span><input id="f-nx" inputmode="numeric" value="201"></label>
+          <label class="field"><span>Кадров по t</span><input id="f-nt" placeholder="авто"></label>
+          <label class="field"><span>Узлов схемы</span><input id="f-fd" inputmode="numeric" value="200"></label>
+        </div>
+        <p class="hint">Сетка влияет только на графики: значения решения точные в каждой точке. «Узлов схемы» — размер независимой разностной схемы для проверки; 0 отключает её.</p>
+      </details>
+
+      <button type="submit" class="primary" id="run">Рассчитать</button>
+
+      <details class="help">
+        <summary>Как записывать формулы</summary>
+        <dl class="help-list" id="help-list"></dl>
+        <p class="hint">Пример: <code>0.5*sin(pi*x/l)</code>, <code>0.4*t*ind(t, 0, t0)</code>.</p>
+      </details>
+    </form>
+  </aside>
+
+  <main>
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Результаты"></nav>
+    <div id="views"></div>
+  </main>
+</div>
+
+<div id="tooltip" class="tooltip" hidden></div>
+<script src="/vendor/plotly.min.js"></script>
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>
